@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Letter for You 💌</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<button id="musicBtn">Play music 🎵</button>
+<audio id="bgMusic" loop>
+    <source src="assets/music/SZA%20-%20Saturn.mp3" type="audio/mpeg">
+</audio>
+<main class="container">
+    <!-- Landing -->
+    <section id="landing" class="screen active">
+        <div class="envelope" id="envelope">
+            <div class="envelope-top"></div>
+            <div class="envelope-body">
+                <span class="heart">💗</span>
+            </div>
+        </div>
+
+        <h1>You have a letter</h1>
+        <p class="subtext">Tap to open 💌</p>
+    </section>
+
+    <!-- Letter -->
+    <section id="letter" class="screen">
+        <div class="letter-card">
+            <p>
+                Hey my love,
+                <br /><br />
+                You make me the happiest man in the world, so
+                <br /><br />
+                Will you be my Valentine? 💕
+            </p>
+
+            <div class="buttons">
+                <button id="yesBtn">Yes 💖</button>
+                <button id="noBtn">No</button>
+            </div>
+
+            <p id="hint" class="hint"></p>
+
+            <div id="pet" class="pet hidden">
+                <div class="pet-body">🐨</div>
+                <div class="pet-speech" id="petSpeech"></div>
+            </div>
+
+            <div id="celebration" class="celebration hidden">
+                <h2>💖 You’re my Valentine! 💖</h2>
+                <p>I can’t wait to spend this day with you my love :)!</p>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Dinner Reveal -->
+    <section id="dinner" class="screen">
+        <div class="dinner-card">
+            <h2>Our Valentine’s Date 💕</h2>
+            <p class="reveal-text">I’ll be taking you to...</p>
+            <h1 class="restaurant-name" id="restaurantName">
+                <!-- Filled dynamically -->
+            </h1>
+            <p class="details">
+                Friday at 7:00 PM
+            </p>
+
+            <a
+                    id="mapLink"
+                    href="#"
+                    target="_blank"
+                    class="map-button"
+            >
+                View Location 📍
+            </a>
+        </div>
+    </section>
+
+</main>
+
+
+<script src="scripts.js"></script>
+</body>
+</html>
