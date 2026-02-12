@@ -11,17 +11,43 @@
 body {
     margin: 0;
     height: 100vh;
-    background: var(--bg);
     font-family: 'Inter', sans-serif;
     color: var(--text);
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: var(--bg);
 }
 
+/* Container for sliding background images */
+#backgroundContainer {
+    position: fixed;
+    inset: 0;
+    display: flex;        /* place children side by side */
+    z-index: -1;          /* behind content */
+    overflow: hidden;
+}
+
+.slide-bg {
+    flex: 1;                   /* each takes 1/3 of width */
+    background-size: contain;   /* fit image vertically */
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    transform: translateY(100%);   /* start below the screen */
+    opacity: 0;
+    transition: transform 2s ease, opacity 2s ease;
+}
+
+/* specific images */
+#background1 { background-image: url('assets/images/KC2.jpg'); }
+#background2 { background-image: url('assets/images/KC12.jpg'); }
+#background3 { background-image: url('assets/images/KC3.jpg'); }
+
+/* Container & text styling */
 .container {
     text-align: center;
     padding: 2rem;
+    z-index: 2; /* above background */
 }
 
 h1 {
@@ -66,9 +92,7 @@ h1 {
     border-bottom: 70px solid #ffe1ea;
 }
 
-.heart {
-    font-size: 2rem;
-}
+.heart { font-size: 2rem; }
 
 /* Animations */
 @keyframes float {
@@ -77,41 +101,29 @@ h1 {
     100% { transform: translateY(0); }
 }
 
-.envelope:active {
-    transform: scale(0.97);
-}
+.envelope:active { transform: scale(0.97); }
 
 /* Screens */
-.screen {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-
-.screen.active {
-    display: block;
-    opacity: 1;
-}
+.screen { display: none; opacity: 0; transition: opacity 0.6s ease; }
+.screen.active { display: block; opacity: 1; }
 
 /* Letter card */
 .letter-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.9); /* soft transparent */
     padding: 2rem;
     max-width: 420px;
     border-radius: 18px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.08);
     font-size: 1.05rem;
     line-height: 1.6;
+    position: relative;
+    z-index: 2;
+    transition: background 1s ease-in-out;
 }
+.letter-card p, .letter-card h1, .letter-card span { text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
 
 /* Buttons */
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
+.buttons { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; }
 button {
     font-family: inherit;
     padding: 0.6rem 1.4rem;
@@ -119,50 +131,17 @@ button {
     border: none;
     font-size: 1rem;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.4s ease;
 }
-
-#yesBtn {
-    background: var(--primary);
-    color: white;
-}
-
-#noBtn {
-    background: #f1d5dd;
-    color: #5a4048;
-}
-
-button:hover {
-    transform: translateY(-1px) scale(1.05);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-}
+#yesBtn { background: var(--primary); color: white; }
+#noBtn { background: #f1d5dd; color: #5a4048; position: relative; }
 
 /* Hint text */
-.hint {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: #a46b7b;
-    min-height: 1.2em;
-    transition: opacity 0.4s ease, transform 0.3s ease;
-}
+.hint { margin-top: 1rem; font-size: 0.9rem; color: #a46b7b; min-height: 1.2em; transition: opacity 0.4s ease, transform 0.3s ease; }
 
-/* No button movement */
-#noBtn {
-    position: relative;
-}
-
-/* Gentle wiggle */
-@keyframes wiggle {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-3px); }
-    50% { transform: translateX(3px); }
-    75% { transform: translateX(-2px); }
-    100% { transform: translateX(0); }
-}
-
-.wiggle {
-    animation: wiggle 0.3s ease;
-}
+/* No button wiggle */
+@keyframes wiggle { 0%{transform:translateX(0);} 25%{transform:translateX(-3px);} 50%{transform:translateX(3px);} 75%{transform:translateX(-2px);} 100%{transform:translateX(0);} }
+.wiggle { animation: wiggle 0.3s ease; }
 
 /* Pet */
 .pet {
@@ -172,11 +151,7 @@ button:hover {
     gap: 0.6rem;
     animation: float 4s ease-in-out infinite;
 }
-
-.pet-body {
-    font-size: 2.4rem;
-}
-
+.pet-body { font-size: 2.4rem; }
 .pet-speech {
     background: #fff0f5;
     padding: 0.6rem 0.9rem;
@@ -185,10 +160,7 @@ button:hover {
     max-width: 220px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
-
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
 /* Celebration screen */
 .celebration {
@@ -201,121 +173,30 @@ button:hover {
     font-family: 'Playfair Display', serif;
     animation: pop 0.5s ease forwards;
 }
-
-@keyframes pop {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
+@keyframes pop { 0% {transform:scale(0.8);opacity:0;} 100% {transform:scale(1);opacity:1;} }
 
 /* Heart confetti */
-.heart-confetti {
-    position: fixed;
-    top: -50px;
-    font-size: 1.2rem;
-    animation: fall 3s linear forwards;
-}
-
-@keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
-}
+.heart-confetti { position: fixed; top: -50px; font-size: 1.2rem; animation: fall 3s linear forwards; }
+@keyframes fall { 0%{transform:translateY(0) rotate(0deg);opacity:1;} 100%{transform:translateY(120vh) rotate(360deg);opacity:0;} }
 
 /* Fade-in animation */
-.fade-in {
-    animation: fadeIn 0.6s ease forwards;
-    opacity: 0;
-}
-
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
+.fade-in { animation: fadeIn 0.6s ease forwards; opacity:0; }
+@keyframes fadeIn { to { opacity: 1; } }
 
 /* Letter glow on celebration */
-.letter-card.glow {
-    box-shadow: 0 0 25px rgba(232, 140, 166, 0.7), 0 0 40px rgba(232, 140, 166, 0.5);
-    transition: box-shadow 0.5s ease;
-}
-
-/* Confetti trailing koala */
-.pet-heart {
-    position: absolute;
-    font-size: 1.2rem;
-    animation: trail 2s linear forwards;
-}
-
-@keyframes trail {
-    0% { transform: translate(0,0) rotate(0deg); opacity:1; }
-    100% { transform: translate(0,120vh) rotate(360deg); opacity:0; }
-}
+.letter-card.glow { box-shadow: 0 0 25px rgba(232,140,166,0.7), 0 0 40px rgba(232,140,166,0.5); transition: box-shadow 0.5s ease; }
 
 /* Background music button */
 #musicBtn {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    background: var(--primary);
-    border: none;
-    color: white;
-    padding: 0.6rem 1rem;
-    border-radius: 999px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.9rem;
+    position: fixed; top: 1rem; right: 1rem; background: var(--primary); border: none; color: white;
+    padding: 0.6rem 1rem; border-radius: 999px; cursor: pointer; font-family: inherit; font-size: 0.9rem;
     box-shadow: 0 6px 12px rgba(0,0,0,0.1);
 }
 
 /* Dinner screen */
-.dinner-card {
-    background: white;
-    padding: 2.5rem 2rem;
-    border-radius: 22px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-    text-align: center;
-    animation: fadeIn 0.8s ease forwards;
-}
-
-.restaurant-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    margin: 1rem 0;
-    color: var(--primary);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.6s ease;
-}
-
-.restaurant-name.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.details {
-    opacity: 0.8;
-    margin-bottom: 1.5rem;
-}
-
-.map-button {
-    display: inline-block;
-    padding: 0.7rem 1.6rem;
-    border-radius: 999px;
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.map-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-}
-
-#yesBtn,
-#noBtn {
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-
-
-
-
+.dinner-card { background: white; padding: 2.5rem 2rem; border-radius: 22px; box-shadow: 0 25px 50px rgba(0,0,0,0.1); text-align:center; animation: fadeIn 0.8s ease forwards; }
+.restaurant-name { font-family:'Playfair Display', serif; font-size:2.2rem; margin:1rem 0; color:var(--primary); opacity:0; transform:translateY(10px); transition: all 0.6s ease; }
+.restaurant-name.show { opacity:1; transform:translateY(0); }
+.details { opacity:0.8; margin-bottom:1.5rem; }
+.map-button { display:inline-block; padding:0.7rem 1.6rem; border-radius:999px; background:var(--primary); color:white; text-decoration:none; font-weight:500; transition:transform 0.2s ease, box-shadow 0.2s ease; }
+.map-button:hover { transform:scale(1.05); box-shadow:0 10px 20px rgba(0,0,0,0.12); }
