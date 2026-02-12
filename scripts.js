@@ -60,7 +60,6 @@ function fadeInMusic() {
 }
 
 yesBtn.addEventListener("click", () => {
-    hint.textContent = "💗 Yay!";
     fadeInMusic();
     musicBtn.textContent = "Pause music 🎵";
 
